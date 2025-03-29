@@ -1,0 +1,246 @@
+<!doctype html>
+
+<html>
+    <head>
+        <!-- Recommended meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+        <!-- PyScript CSS -->
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/assets/css/portopt.css">
+
+        <!-- This script tag bootstraps PyScript -->
+        <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+        
+
+        <!-- for splashscreen -->
+        <style>
+        </style>
+        
+        <!-- will be set via PyDom -->
+        <title id="header-title"></title>
+    </head>
+
+    <body>
+
+        <script type="module">
+            document.getElementById('loading').showModal();
+        </script>
+        
+        <dialog id="loading">
+            <h1>Loading...🔨</h1>
+        </dialog>
+        <img src="https://blog-imgs-158.fc2.com/q/u/a/quanzoo/title.png" alt="title.png" width="700">
+        <br>
+        <br>
+        設定したリスク量上限の範囲内で期待リターンを最大化するポートフォリオを計算するツールです<br>
+        <br>
+        <h4 class=portopt>ポートフォリオ設計</h4>
+        <br>
+        <div id="parent">
+            <div id="child1">
+                <table class=portopt>
+                    <tbody>
+                        <tr>
+                        <th>リスク量上限</th>
+                        <td><input type="number" id="vol" class="py-input" step="0.5" min="0" style="text-align:right;"/>%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <table class=portopt>
+                    <tbody>
+                        <tr align="center">
+                            <th>資産</th>
+                            <th>投資対象</th>
+                            <th>期待リターン</th>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_TP">国内株式</th>
+                            <td><input type="checkbox" py-input="checked" id="TP" name="assets" class="py-input" value="TP" checked/></td>
+                            <td><input type="number" id="er_TP" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_SP">米国株式</th>
+                            <td><input type="checkbox" py-input="checked" id="SP" name="assets" class="py-input" value="SP" checked/></td>
+                            <td><input type="number" id="er_SP" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_ACWI">世界株式</th>
+                            <td><input type="checkbox" py-input="checked" id="ACWI" name="assets" class="py-input" value="ACWI" checked/></td>
+                            <td><input type="number" id="er_ACWI" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_EME">新興国株式</th>
+                            <td><input type="checkbox" py-input="checked" id="EME" name="assets" class="py-input" value="EME" checked/></td>
+                            <td><input type="number" id="er_EME" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_JB">国内債券</th>
+                            <td><input type="checkbox" py-input="checked" id="JB" name="assets" class="py-input" value="JB" checked/></td>
+                            <td><input type="number" id="er_JB" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_DMB">先進国国債</th>
+                            <td><input type="checkbox" py-input="checked" id="DMB" name="assets" class="py-input" value="DMB" checked/></td>
+                            <td><input type="number" id="er_DMB" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_EMB">新興国国債</th>
+                            <td><input type="checkbox" py-input="checked" id="EMB" name="assets" class="py-input" value="EMB" checked/></td>
+                            <td><input type="number" id="er_EMB" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_IGB">ドル建社債</th>
+                            <td><input type="checkbox" py-input="checked" id="IGB" name="assets" class="py-input" value="IGB" checked/></td>
+                            <td><input type="number" id="er_IGB" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                        <tr align="center">
+                            <th id="name_GOLD">金</th>
+                            <td><input type="checkbox" py-input="checked" id="GOLD" name="assets" class="py-input" value="GOLD" checked/></td>
+                            <td><input type="number" id="er_GOLD" class="py-input" step="0.5" style="text-align:right;"/>%</td>                        
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <center><button type="submit" id="btn-load" class="py-button" py-click="Optimize">
+                ポートフォリオ構築⚒️
+                </button></center>
+            </div>
+            <div id="child2" style=	"padding: 1em;">
+                <br>
+                <div style=	"padding: 0.1em; border-left:solid 5px #e9b3a3; background-color:#F9F8F8;">
+                    <br>
+                    <b style="font-size:1.2em;">　使用方法</b>
+                    <ul>
+                        <li>リスク量上限はご自身のリスク許容度に合った値を入力してください</li>
+                        <li>リスク許容度を測定したい方は<a href="https://quanzoo.blog.fc2.com/blog-entry-11.html">こちらの記事</a>をお読みください</li> 
+                        <li>投資対象にチェックが入っている資産のみでポートフォリオを構築します</li>
+                        <li>期待リターンはデフォルトでは過去20年間の平均リターンが入力されています</li>
+                        <li>任意の期待リターンに基づいて分析をしたい方は、期待リターンを変更してください</li>
+                        <li>ポートフォリオ構築⚒️を押すと結果が出力されます</li>
+                    </ul>
+                </div>
+                <br>
+                <div style=	"padding: 0.1em; border-left:solid 5px #e9b3a3; background-color:#F9F8F8;">
+                    <br>
+                    <b style="font-size:1.2em;">　注意事項</b>
+                    <ul>
+                        <li>リスク量上限が低すぎる時や極端な値を入れた時など解が見つからない場合に正確な数値が出力されないことがあります</li>
+                        <li>ポートフォリオのウエイト合計は端数処理の影響で100%にならない場合があります</li>
+                        <li>詳しい計算前提はページ下部に記載しています</li>
+                    </ul>
+                </div> 
+            </div>
+        </div>
+        <br>
+        <div id="error" hidden></div>
+            <br>
+            　　　
+        <br>
+        <br>
+        
+
+        <div id="output" hidden>
+            <h4 class=portopt>構築結果</h4>
+            <br>
+            <div id="parent">
+                <div id="child1">
+                    <b style="font-size:1.1em;">ポートフォリオ</b>
+                    <table class=portopt>
+                        <tbody>
+                            <tr style="display:none;" id="wgt_TP" align="center">
+                                <th>国内株式</th>
+                                <td id="wgt_TP"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_SP" align="center">
+                                <th>米国株式</th>
+                                <td id="wgt_SP"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_ACWI" align="center">
+                                <th>世界株式</th>
+                                <td id="wgt_ACWI"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_EME" align="center">
+                                <th>新興国株式</th>
+                                <td id="wgt_EME"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_JB" align="center">
+                                <th>国内債券</th>
+                                <td id="wgt_JB"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_DMB" align="center">
+                                <th>先進国国債</th>
+                                <td id="wgt_DMB"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_EMB" align="center">
+                                <th>新興国国債</th>
+                                <td id="wgt_EMB"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_IGB" align="center">
+                                <th>ドル建社債</th>
+                                <td id="wgt_IGB"></td>
+                            </tr>
+                            <tr style="display:none;" id="wgt_GOLD" align="center">
+                                <th>金</th>
+                                <td id="wgt_GOLD"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="child2">
+                    <b style="font-size:1.1em;">パフォーマンス</b>
+                    <table class=portopt>
+                        <tbody>
+                            <tr align="center">
+                                <th>期待リターン</th>
+                                <th>リスク</th>
+                                <th>シャープレシオ</th>                        
+                            </tr>
+                            <tr align="center">
+                                <td id="port_er" style="font-size:1.3em;"></td>
+                                <td id="port_vol" style="font-size:1.3em;"></td>
+                                <td id="port_sr" style="font-size:1.3em;"></td>                        
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                
+            </div>
+        </div>
+
+
+
+
+<br>
+        <div>
+            <h4 class=portopt>計算前提</h4>
+
+            <ul>
+                <li>リスク、デフォルトの期待リターン共に過去20年間(2004年12月末～2024年12月末)の月次リターンを使用して推計</li>
+                <li>各資産のリターンは全て円換算後（為替ヘッジなし）、トータルリターン（配当込み）ベース</li>
+                <li>国内株式：TOPIX、米国株式：S&P500、世界株式：MSCI ACWI、新興国株式：MSCI EM、国内債券：S&P 日本債券、先進国国債：WGBI(除く日本)、新興国国債：JPM EMBI Global Core、ドル建社債：iBoxx 米ドル建投資適格社債</li>
+            </ul>
+            <br>
+            <br>
+            <h4 class=portopt>更新履歴</h4>
+            <br>
+            2025.03.23 ベータ版公開<br>
+            <br>
+            <br>
+            <br>
+            ※ 提示データや分析内容を含め、本ページは投資勧誘や投資アドバイスを目的としたものではありません。<br>
+            ※ 分析結果は投資を推奨するものではありません。分析結果を利用して行われた行為に対する責任を負いません。<br>
+            ※ 正確性や完全性を保証するものではありません。<br>
+            
+        </div>        
+
+        <section class="pyscript">
+            <script type="py" src="https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/main.py" config="https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/pyscript.toml"></script>
+        </section>
+
+    </body>
+</html>
