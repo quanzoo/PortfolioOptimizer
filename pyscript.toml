@@ -3,5 +3,4 @@ description = "A simple application that loads a csv and displays a table of its
 packages = [ "pandas", "numpy", "scipy"]
 
 [files]
-"https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/portopt.py" = "./portopt.py"
-"https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/data/returns.csv" = "./data/returns.csv"
+"https://quanzoo.github.io/PortfolioOptimizer/portopt.py" = "./portopt.py"
