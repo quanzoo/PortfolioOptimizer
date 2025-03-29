@@ -1,0 +1,7 @@
+name = "portfolio optimizer"
+description = "A simple application that loads a csv and displays a table of its contents."
+packages = [ "pandas", "numpy", "scipy"]
+
+[files]
+"https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/portopt.py" = "./portopt.py"
+"https://quanzoo.pyscriptapps.com/portfolio-optimizer/latest/data/returns.csv" = "./data/returns.csv"
