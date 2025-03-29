@@ -12,9 +12,9 @@ warnings.filterwarnings("ignore")
 document.querySelector("input#vol").value = 10
 
 # データ読み込み
-url_rets = "./data/returns.csv"
+url_rets = "https://quanzoo.github.io/PortfolioOptimizer/data/returns.csv"
 all_rets = pd.read_csv(open_url(url_rets), index_col=0)
-url_rfrs = "./data/rfrs.csv"
+url_rfrs = "https://quanzoo.github.io/PortfolioOptimizer/data/rfrs.csv"
 rfrs = pd.read_csv(open_url(url_rfrs), index_col=0)
 
 # 期待リターン計算、初期値設定
